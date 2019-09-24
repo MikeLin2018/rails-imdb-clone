@@ -4,6 +4,8 @@ class ApplicationController < ActionController::Base
 
   protected
 
+  protect_from_forgery
+
   def configure_permitted_parameters
     added_attrs = [:username, :email, :password, :password_confirmation, :remember_me]
     devise_parameter_sanitizer.permit :sign_up, keys: [:name]

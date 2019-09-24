@@ -1,4 +1,5 @@
 class ValidCategoriesController < ApplicationController
+  before_action :check_admin
   before_action :set_valid_category, only: [:show, :edit, :update, :destroy]
 
   # GET /valid_categories
@@ -71,5 +72,14 @@ class ValidCategoriesController < ApplicationController
   # Never trust parameters from the scary internet, only allow the white list through.
   def valid_category_params
     params.require(:valid_category).permit(:name)
+  end
+
+  def check_admin
+    unless user_signed_in?
+      raise ActionController::RoutingError.new('Not Found')
+    end
+    unless current_user.admin
+      raise ActionController::RoutingError.new('Not Found')
+    end
   end
 end

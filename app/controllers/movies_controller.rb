@@ -1,4 +1,5 @@
 class MoviesController < ApplicationController
+  before_action :check_admin, except: [:show]
   before_action :set_movie, only: [:show, :edit, :update, :destroy]
 
   # GET /movies
@@ -10,7 +11,7 @@ class MoviesController < ApplicationController
   # GET /movies/1
   # GET /movies/1.json
   def show
-    if @movie.avg_rating && @movie.avg_rating.rating
+    if @movie.avg_rating&.rating
       @avg_rating = @movie.avg_rating.rating
     else
       @avg_rating = "No rating"
@@ -39,7 +40,7 @@ class MoviesController < ApplicationController
     ActiveRecord::Base.transaction do
       @movie.save!
       categories.each { |category|
-        @category = Category.new({category: category, movie_id: @movie.id})
+        @category = Category.new({valid_category_id: ValidCategory.find_by_name(category).id, movie_id: @movie.id})
         @category.save!
       }
       redirect_to @movie
@@ -81,6 +82,15 @@ class MoviesController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def movie_params
-    params.require(:movie).permit(:title, :category, :description)
+    params.require(:movie).permit(:title, :description)
+  end
+
+  def check_admin
+    unless user_signed_in?
+      raise ActionController::RoutingError.new('Not Found')
+    end
+    unless current_user.admin
+      raise ActionController::RoutingError.new('Not Found')
+    end
   end
 end
