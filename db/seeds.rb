@@ -26,3 +26,11 @@ seed_movies.each do |movie|
     Category.create({movie_id: new_movie.id, valid_category_id: ValidCategory.find_by_name(category).id})
   end
 end
+
+user = User.new(
+    :email => "admin@test.com",
+    :password => "password",
+    :password_confirmation => "password",
+    :admin => true
+)
+user.save!
