@@ -8,9 +8,9 @@
 
 # Initialize valid categories
 valid_categories = [:Comedy, :Horror, :Romance, :Action, :Thriller, :Drama, :Crime, :Animation, :Adventure]
-# valid_categories.each do |valid_cateogry|
-#   ValidCategory.create({category: valid_cateogry})
-# end
+valid_categories.each do |valid_cateogry|
+  ValidCategory.create({category: valid_cateogry})
+end
 
 # Initialize seed movies
 seed_movies = []
