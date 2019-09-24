@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Movies</h1>
+
+<%= link_to 'New Movie', new_movie_path %>
+
+<table>
+  <thead>
+  <tr>
+    <th>Title</th>
+    <th>Description</th>
+    <th>Categories</th>
+    <th colspan="3"></th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <% @movies.each do |movie| %>
+    <tr>
+      <td><%= movie.title %></td>
+      <td><%= movie.description %></td>
+      <td><%= movie.category.all.map { |cat| cat.valid_category.name }.join(", ") %></td>
+      <td><%= link_to 'Show', movie %></td>
+      <td><%= link_to 'Edit', edit_movie_path(movie) %></td>
+      <td><%= link_to 'Destroy', movie, method: :delete, data: {confirm: 'Are you sure?'} %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<%== pagy_bootstrap_nav(@pagy) %>
+
+<br>
+
+<%= link_to 'New Movie', new_movie_path %>

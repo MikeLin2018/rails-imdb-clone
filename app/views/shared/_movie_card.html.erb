@@ -1,0 +1,13 @@
+<div class="card" style="width: 20rem; margin: 5px ">
+  <div class="card-body">
+    <h5 class="card-title"><%= movie.title %></h5>
+    <div class="card-subtitle">
+      <% (ValidCategory.all.select { |valid_cat| Category.where(movie_id: movie.id).exists?(valid_category_id: valid_cat.id) }).each do |valid_cat| %>
+        <span class="badge badge-secondary"><%= valid_cat.name %></span>
+      <% end %>
+    </div>
+    <p class="card-text"><%= movie.description %></p>
+    <%= render partial: 'shared/user_rating_stars', locals: {movie: movie} %>
+    <%= link_to 'See Detail', movie, class: "btn btn-primary text-white" %>
+  </div>
+</div>

@@ -1,0 +1,44 @@
+<p id="notice"><%= notice %></p>
+
+<div class="container">
+  <h1 class="text-center"><%= @movie.title %></h1>
+  <br/>
+  <div class="container">
+    <div class="row">
+      <h4>Categories: <%= @movie.category.all.map { |c| c.valid_category.name }.join(", ") %></h4>
+    </div>
+    <div class="row">
+      <h4>Average rating:</h4>
+    </div>
+    <div class="row">
+      <div class="col">
+        <%= @avg_rating %>
+      </div>
+    </div>
+    <div class="row">
+      <h4>Description:</h4>
+    </div>
+    <div class="row">
+      <div class="col">
+        <%= @movie.description %>
+      </div>
+    </div>
+    <div class="row">
+      <h4>My rating:</h4>
+    </div>
+    <div class="row">
+      <div class="col">
+        <% unless user_signed_in? %>
+          Please <%= link_to "Log in", new_user_session_path %> to rate the movie
+        <% end %>
+        <%= render partial: "shared/user_rating_stars", locals: {movie: @movie} %>
+      </div>
+    </div>
+  </div>
+
+  <br/>
+  <% if user_signed_in? && current_user.admin? %>
+    <%= link_to 'Edit', edit_movie_path(@movie) %> |
+  <% end %>
+  <%= link_to 'Back', :back %>
+</div>

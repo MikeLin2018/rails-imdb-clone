@@ -1,0 +1,67 @@
+<% if user_signed_in? %>
+  <div>
+    <fieldset class="rate">
+      <% 10.times do |index| %>
+        <% index = 10 - index %>
+        <% checked = "" %>
+        <% if @ratings.any? { |rating_record| rating_record.movie_id == movie.id } %>
+          <% record = @ratings.find_by movie_id: movie.id %>
+          <% checked = if index < record.rating then
+                         "checked"
+                       end %>
+        <% end %>
+        <!--                    <input class="rate-checkbox" type="radio" name="rating"/>-->
+        <% if index % 2 == 0 %>
+          <label class="rating-label <%= checked %>"
+                 movieId="<%= movie.id %>"
+                 value="<%= index %>"
+                 for="rating<%= index %>"
+                 title="<%= index / 2 %> stars">
+          </label>
+        <% else %>
+          <label class="half rating-label <%= checked %>"
+                 movieId="<%= movie.id %>"
+                 value="<%= index %>"
+                 for="rating<%= index %>"
+                 title="<%= index / 2 + 0.5 %> stars">
+          </label>
+        <% end %>
+      <% end %>
+    </fieldset>
+    <div class="spinner-border d-none" role="status">
+      <span class="sr-only">Loading...</span>
+      <br/>
+    </div>
+  </div>
+<% end %>
+
+<script>
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+    $(".rating-label").click(function (e) {
+        e.stopPropagation();
+        const target = $(e.target);
+        $.ajax({
+            type: "POST",
+            url: "<%= rating_path %>",
+            data: {rating: target.attr("value"), movie_id: target.attr("movieId")},
+            beforeSend: function () {
+                target.parent().addClass("d-none")
+                target.parent().siblings('div.spinner-border').removeClass("d-none")
+            }
+        }).done(function () {
+            target.parent().removeClass("d-none")
+            target.parent().siblings('div.spinner-border').addClass("d-none")
+        });
+        target.siblings().removeClass("checked");
+        target.addClass("checked");
+        target.nextAll().addClass("checked");
+    }).mouseenter(function (e) {
+        $(e.target).prevAll().css("color", "black")
+    }).mouseleave(function (e) {
+        $(e.target).prevAll().css("color", "")
+    })
+</script>

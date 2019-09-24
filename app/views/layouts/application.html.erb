@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>RailsImdbClone</title>
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+
+  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+</head>
+
+<body>
+<ul class="nav justify-content-end">
+  <li class="nav-item">
+    <%= link_to 'Home', root_path, class: "nav-link" %>
+  </li>
+  <% if user_signed_in? %>
+    <% if current_user.admin? %>
+      <li class="nav-item">
+        <%= link_to "Movies", movies_path, class: "nav-link" %>
+      </li>
+      <li class="nav-item">
+        <%= link_to "Categories", valid_categories_path, class: "nav-link" %>
+      </li>
+    <% end %>
+    <li class="nav-item">
+      <%= link_to "Hi, " + current_user.name, edit_user_registration_path, class: "nav-link" %>
+    </li>
+  <% else %>
+    <li class="nav-item">
+      <%= link_to "Sign up", new_user_registration_path, class: "nav-link" %>
+    </li>
+    <li class="nav-item">
+      <%= link_to "Login", new_user_session_path, class: "nav-link" %>
+    </li>
+  <% end %>
+</ul>
+<%= yield %>
+
+</body>
+</html>

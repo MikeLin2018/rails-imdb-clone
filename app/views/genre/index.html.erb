@@ -1,0 +1,12 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Genres</h1>
+
+<% @valid_categories.each do |valid_category| %>
+  <%= valid_category.category %>
+  <br>
+<% end %>
+
+
+
+<%= link_to 'New Movie', new_movie_path %>
