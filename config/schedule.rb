@@ -20,6 +20,7 @@
 # Learn more: http://github.com/javan/whenever
 #
 set :output, "log/cron_log.log"
+ENV['RAILS_ENV'] = "development"
 
 every 1.minute do
   rake "movie_routine:calculate_avg_rating"
