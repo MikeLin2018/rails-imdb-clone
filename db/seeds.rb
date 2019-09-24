@@ -28,6 +28,7 @@ seed_movies.each do |movie|
 end
 
 user = User.new(
+    :name => "admin",
     :email => "admin@test.com",
     :password => "password",
     :password_confirmation => "password",
