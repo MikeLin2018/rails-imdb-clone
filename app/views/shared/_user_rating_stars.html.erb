@@ -1,16 +1,15 @@
 <% if user_signed_in? %>
   <div>
     <fieldset class="rate">
+      <% record = @ratings.find_by movie_id: movie.id %>
       <% 10.times do |index| %>
         <% index = 10 - index %>
         <% checked = "" %>
-        <% if @ratings.any? { |rating_record| rating_record.movie_id == movie.id } %>
-          <% record = @ratings.find_by movie_id: movie.id %>
-          <% checked = if index < record.rating then
+        <% if !record.nil? %>
+          <% checked = if index < record.rating.to_i then
                          "checked"
                        end %>
         <% end %>
-        <!--                    <input class="rate-checkbox" type="radio" name="rating"/>-->
         <% if index % 2 == 0 %>
           <label class="rating-label <%= checked %>"
                  movieId="<%= movie.id %>"
