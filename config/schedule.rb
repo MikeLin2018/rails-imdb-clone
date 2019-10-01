@@ -22,7 +22,7 @@
 set :output, "log/cron_log.log"
 ENV['RAILS_ENV'] = "development"
 
-every 1.minute do
+every 1.days do
   rake "movie_routine:calculate_avg_rating"
   puts "Movie average rating calculated"
 end
